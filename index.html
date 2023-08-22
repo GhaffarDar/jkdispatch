@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow">
+    <title>Invoice Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .invoice {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .invoice-header h1 {
+            color: #333;
+        }
+
+        .invoice-from-to {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .invoice-details {
+            margin-top: 20px;
+        }
+
+        .invoice-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .invoice-details th, .invoice-details td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .invoice-details th {
+            background-color: #f4f4f4;
+        }
+
+        .invoice-details input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            border: none;
+            outline: none;
+        }
+
+        .invoice-items {
+            margin-top: 20px;
+        }
+
+        .invoice-items table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .invoice-items th, .invoice-items td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .invoice-items th {
+            background-color: #f4f4f4;
+        }
+
+        .invoice-items input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            border: none;
+            outline: none;
+        }
+
+        .invoice-footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #888;
+        }
+
+        .text-red {
+            color: #ff0000;
+        }
+
+        .text-green {
+            color: #4caf50;
+        }
+
+        .inline-input {
+            display: inline-block;
+            width: 150px;
+            margin-right: 20px;
+        }
+
+        .amount-due {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .undo-button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin: 20px auto;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin: 20px auto;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .save-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin: 20px auto;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .invoice-total {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .invoice-total h3 {
+            color: #ff0000;
+        }
+
+        .flat-rate { /* Added style for Flat Rate input */
+            width: 100%;
+            padding: 5px;
+            border: none;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice">
+        <div class="invoice-header">
+            <img src="your_logo.png" alt="Your Company Logo" width="150">
+            <h1>Invoice</h1>
+        </div>
+        <div class="invoice-from-to">
+            <div class="from">
+                <h3>From:</h3>
+                <p>JK Dispatch Services</p>
+                <p>jackkelly.dispatch87@gmail.com</p>
+            </div>
+            <div class="to">
+                <h3>To:</h3>
+                <p class="inline-input">Client Name: <input type="text" id="client-name"></p>
+                <p class="inline-input">MC Number: <input type="text" id="client-address"></p>
+                <p class="inline-input">Client Email: <input type="text" id="client-email"></p>
+            </div>
+        </div>
+        <div class="invoice-details">
+            <table>
+                <tr>
+                    <th><label for="invoice-date">Date:</label></th>
+                    <td><input type="text" id="invoice-date" value="August 15, 2023"></td>
+                </tr>
+                <tr>
+                    <th><label for="invoice-number">Invoice Number:</label></th>
+                    <td><input type="text" id="invoice-number" value="#12345"></td>
+                </tr>
+                <tr>
+                    <th>Dispatcher Name</th>
+                    <td><input type="text" id="dispatcher-name" value="Ghaffar Dar"></td> <!-- Updated Dispatcher Name input -->
+                </tr>
+                <tr>
+                    <th>Accountant Name</th>
+                    <td>Muhammad Ghaffar</td>
+                </tr>
+                <tr>
+                    <th class="text-red">Payoneer Email</th>
+                    <th class="text-red">payghaffar@gmail.com</th>
+                </tr>
+            </table>
+        </div>
+        <div class="invoice-items">
+            <table>
+                <tr>
+                    <th>Services (Loads)</th>
+                    <th>Load Amount</th>
+                    <th>Commission</th>
+                    <th>Flat Rate</th> <!-- Added Flat Rate column -->
+                    <th>Amount Due</th>
+                </tr>
+                <tr>
+                    <td><input type="text" value="Where To Where"></td>
+                    <td><input type="text" value="$2.00" id="load-amount-1" oninput="calculateAmountDue(1)"></td>
+                    <td><input type="text" value="50.00%" id="commission-1" oninput="calculateAmountDue(1)"></td>
+                    <td><input type="text" value="$10.00" id="flat-rate-1" oninput="calculateAmountDue(1)"></td> <!-- Added Flat Rate input -->
+                    <td class="amount-due"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="invoice-total">
+            <h3>Total: <span id="invoice-total-amount" class="text-red">$0.00</span></h3>
+        </div>
+        <div class="invoice-footer">
+            <p><span class="text-red">Payment is due within 5 days</span>. <span class="text-green">Thank you for doing business with us!</span></p>
+        </div>
+        <div class="invoice-buttons">
+            <button class="add-button" onclick="addRow()">Add Row</button>
+            <button class="undo-button" onclick="undoRow()">Undo</button>
+            <button class="save-button" onclick="saveAsPDF()">Save as PDF</button> <!-- Added Save as PDF button -->
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script> <!-- Include jsPDF library -->
+
+    <script>
+        let rowHistory = [];
+
+        function addRow() {
+            const table = document.querySelector('.invoice-items table');
+
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" placeholder="Where To Where"></td>
+                <td><input type="text" placeholder="Load Amount" id="load-amount-2" oninput="calculateAmountDue(2)"></td>
+                <td><input type="text" placeholder="Commission" id="commission-2" oninput="calculateAmountDue(2)"></td>
+                <td><input type="text" placeholder="Flat Rate" id="flat-rate-2" oninput="calculateAmountDue(2)"></td> <!-- Added Flat Rate input -->
+                <td class="amount-due"></td>
+            `;
+
+            table.appendChild(newRow);
+            rowHistory.push(newRow);
+            calculateTotal();
+        }
+
+        function undoRow() {
+            if (rowHistory.length > 0) {
+                const table = document.querySelector('.invoice-items table');
+                const removedRow = rowHistory.pop();
+                table.removeChild(removedRow);
+                calculateTotal();
+            }
+        }
+
+        function calculateTotal() {
+            const rows = document.querySelectorAll('.invoice-items table tr');
+            let total = 0;
+
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const loadAmountInput = row.querySelector('td:nth-child(2) input');
+                const commissionInput = row.querySelector('td:nth-child(3) input');
+                const flatRateInput = row.querySelector('td:nth-child(4) input'); // Added
+                const amountDueCell = row.querySelector('td.amount-due');
+
+                const loadAmount = parseFloat(loadAmountInput.value.replace('$', '').trim()) || 0;
+                const commission = parseFloat(commissionInput.value.replace('%', '').trim()) || 0;
+                const flatRate = parseFloat(flatRateInput.value.replace('$', '').trim()) || 0; // Added
+                const amountDue = flatRate > 0 ? flatRate : (loadAmount * (commission / 100));
+
+                amountDueCell.textContent = `$${amountDue.toFixed(2)}`;
+                total += amountDue;
+            }
+
+            const totalElement = document.getElementById('invoice-total-amount');
+            totalElement.textContent = `$${total.toFixed(2)}`;
+
+            if (total === 0) {
+                totalElement.textContent = '';
+            }
+        }
+
+        function saveAsPDF() {
+            const doc = new jsPDF();
+            doc.setFontSize(16);
+            doc.text("Invoice", 10, 20);
+
+            const invoiceContent = document.querySelector('.invoice');
+            const options = {
+                margin: {
+                    top: 30,
+                    left: 10,
+                    right: 10,
+                    bottom: 10
+                },
+                html2canvas: { scale: 0.75 }
+            };
+
+            doc.html(invoiceContent, options);
+            doc.save('invoice.pdf');
+        }
+    </script>
+</body>
+</html>
